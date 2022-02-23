@@ -1,49 +1,49 @@
-# Contributor: Moises Baca
-# Maintainer: Sean McEligot <sean.mceligot@gmail.com>
+# Maintainer: Colin Wee <2gbleh@gmail.com>
 
 pkgname=thinkorswim
-pkgver=1
-pkgrel=4
+pkgver=b032cdd
+pkgrel=1
 pkgdesc="Stocks and options trade client"
 arch=(i686 x86_64)
 url="https://www.thinkorswim.com"
-#depends=('jre7')
-depends=('java-environment=7')
+depends=('zulu-11-bin')
 license=('Copyright')
 source=(https://mediaserver.thinkorswim.com/installer/InstFiles/thinkorswim_installer.sh)
-sha256sums=('4bf37740d793cccaee69c590932608da775faad99449ea132f77e59458250efb')
+sha256sums=('b032cddfa145a3b7d5e23c8b3fdb780c613f9c357c811710809366d393f463ce')
 
-build() {
-  echo $0 $*
+pkgver ()
+{
+  sha256sum thinkorswim_installer.sh | head -c 7
 }
-pre_upgrade() {
-  echo pre_upgrade $*
+
+check ()
+{
+  archlinux-java get | grep -q "^zulu-11$"
 }
-post_install() {
-  echo post_install $*
+
+# install()
+# {
+#   PATH=/usr/lib/jvm/java-7-jre/jre/bin:${PATH}
+#   export PATH
+#
+#   JAVA_HOME=/usr/lib/jvm/java-7-jre/jre
+#   export JAVA_HOME 
+#   ./thinkorswim_installer.sh -q -dir /opt/thinkorswim
+# }
+
+post_remove ()
+{
+  sh /home/cwee/thinkorswim/uninstall
 }
-install() {
-  echo $0 $*
-	chmod 700 thinkorswim_installer.sh
-  PATH=/usr/lib/jvm/java-7-jre/jre/bin:${PATH}
-  export PATH
-  
-  JAVA_HOME=/usr/lib/jvm/java-7-jre/jre
-  export JAVA_HOME 
-	./thinkorswim_installer.sh -q -dir /opt/thinkorswim
+
+package ()
+{
+  # mkdir -p "$pkgdir/home/cwee/thinkorswim"
+  # chmod 777 "$pkgdir/home/cwee/thinkorswim"
+
+  # find ${pkgdir}
+  unset _JAVA_OPTIONS
+  sh thinkorswim_installer.sh -q -dir /home/cwee/thinkorswim
+  # install -D -m 755 "$pkgdir/usr/local/share/applications/thinkorswim.desktop"
 }
-post_remove() {
-  echo post_remove $*
-  sh /opt/thinkorswim/uninstall
-}
-prepare() { 
-  echo prepare $*
-}
-package() {
-echo package $*
-  echo pkgdir ${pkgdir}
-  install -Dm755 thinkorswim "${pkgdir}"/usr/bin/thinkorswim
-  find ${pkgdir}
-	#./thinkorswim_installer.sh -q -dir ${pkgdir}/opt/thinkorswim
-  #find ${pkgdir}
-}
+
