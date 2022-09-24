@@ -1,15 +1,21 @@
 # Maintainer: Colin Wee <2gbleh@gmail.com>
 
 pkgname=thinkorswim
-pkgver=b032cdd
+pkgver=8fda7cc
 pkgrel=1
 pkgdesc="Stocks and options trade client"
 arch=(i686 x86_64)
 url="https://www.thinkorswim.com"
 depends=('zulu-11-bin')
 license=('Copyright')
-source=(https://mediaserver.thinkorswim.com/installer/InstFiles/thinkorswim_installer.sh)
-sha256sums=('b032cddfa145a3b7d5e23c8b3fdb780c613f9c357c811710809366d393f463ce')
+source=(
+  "https://mediaserver.thinkorswim.com/installer/InstFiles/thinkorswim_installer.sh"
+  "thinkorswim.desktop"
+)
+sha256sums=(
+  'b032cddfa145a3b7d5e23c8b3fdb780c613f9c357c811710809366d393f463ce'
+  'dbc96c5c4d37df00481e84610e7ce4ff8d3db93fd5b68531f541e0b88a835aa5'
+)
 
 pkgver ()
 {
@@ -48,6 +54,6 @@ package ()
   # find ${pkgdir}
   unset _JAVA_OPTIONS
   sh thinkorswim_installer.sh -q -dir /home/cwee/thinkorswim
-  # install -D -m 755 "$pkgdir/usr/local/share/applications/thinkorswim.desktop"
+  install -D -m 755 thinkorswim.desktop "$pkgdir/usr/local/share/applications/thinkorswim.desktop"
 }
 

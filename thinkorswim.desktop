@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=thinkorswim
+GenericName=Trading platform
+Comment=Trading platform
+Icon=thinkorswim
+Exec=/opt/thinkorswim/thinkorswim
+Path=/opt/thinkorswim
+Terminal=false
+StartupNotify=true
+Categories=Java;
