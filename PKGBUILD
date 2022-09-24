@@ -18,7 +18,11 @@ pkgver ()
 
 check ()
 {
-  archlinux-java get | grep -q "^zulu-11$"
+  if ! archlinux-java get | grep -q "^zulu-11$"; then
+    echo "unsupported JRE detected. use:"
+    echo "$ archlinux-java set zulu-11"
+    return 1
+  fi
 }
 
 # install()
